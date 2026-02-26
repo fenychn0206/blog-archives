@@ -1,0 +1,42 @@
+banner_suffix: 
+links:
+  - class_name: 推荐 # 分类名称
+    descr: 参与本站开发、提供设计灵感、捐助本站的优秀博主 # 分类简介
+    type: item  # 显示方式，有两种 card / item
+    suffix: 
+    link_list:
+      - name: Efu   # 友链名称
+        link: https://www.efu.me/   # 友链地址
+        avatar: https://7.isyangs.cn/1/65eb27e69bcff-1.png  # 显示头像
+        descr: 宁静致远，热爱生活。   # 友链简介
+      - name: Frederick   # 友链名称
+        link: https://www.ohdragonboi.cn/   # 友链地址
+        avatar: https://www.ohdragonboi.cn/images/哈哈.jpg  # 显示头像
+        descr: 多试试，总能找到什么。   # 友链简介
+  - class_name: 技术
+    descr: 技术知识为主的博客
+    type: item
+    suffix: 
+    link_list:
+      - name: isYangs   # 友链名称
+        link: https://isyangs.cn    # 友链地址
+        avatar: https://7.isyangs.cn/8/655c9835780a0-8.jpg  # 显示头像
+        descr: 一个前端Bug构造师的博客    # 友链简介
+      - name: Rayminn   # 友链名称
+        link: https://blog.rayminn.top    # 友链地址
+        avatar: https://avatars.githubusercontent.com/u/98998872  # 显示头像
+        descr: 怀揣理想 拥抱时代    # 友链简介
+      - name: 张洪Heo
+        link: https://blog.zhheo.com/
+        avatar: https://bu.dusays.com/2022/12/28/63ac2812183aa.png
+        descr: 分享设计与科技生活
+      - name: 小冰博客
+        link: https://zfe.one
+        avatar: https://zfe.space/images/headimage.png
+        descr: 做个有梦想的人！
+      - name: Akilarの糖果屋
+        link: https://akilar.top/
+        siteshot: https://npm.elemecdn.com/akilar-friends@latest/siteshot/akilar.top.jpg
+        avatar: https://npm.elemecdn.com/akilar-friends@latest/avatar/akilar.top.jpg
+        descr: 欢迎光临糖果屋
+      

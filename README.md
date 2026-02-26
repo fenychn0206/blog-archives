@@ -14,6 +14,6 @@
 
 | 版本 | 框架 |
 | :--: | :--: |
-| ` ` | ` ` |
+| `v1` | `hexo` + solitude |
 
 > **ooowl.net** &copy; fenychn0206 | Licesne under [MIT License](LICENSE).
