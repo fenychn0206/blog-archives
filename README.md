@@ -16,6 +16,6 @@
 
 | 版本 | 框架 |
 | :--: | :--: |
-| `v5` | `astro` |
+| ` ` | ` ` |
 
 > **blog-archives** &copy; fenychn0206 | Licesne under [MIT License](LICENSE).
