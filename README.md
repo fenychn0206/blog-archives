@@ -14,6 +14,6 @@
 
 | 版本 | 框架 |
 | :--: | :--: |
-| `v3` | `hexo` + `theme-redefine` |
+| `v4` | `astro` |
 
 > **ooowl.net** &copy; fenychn0206 | Licesne under [MIT License](LICENSE).
