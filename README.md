@@ -18,4 +18,6 @@
 | :--: | :--: |
 | ` ` | ` ` |
 
-> **blog-archives** &copy; fenychn0206 | Licesne under [MIT License](LICENSE).
+---
+
+<samp><b>blog-archives</b> &copy; fenychn0206<br>code is licensed under <a href="LICENSE">MIT License</a>, <br>posts are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons BY-SA 4.0</a>.</samp>
