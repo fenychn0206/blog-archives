@@ -16,4 +16,4 @@
 | :--: | :--: |
 | `v5` | `astro` |
 
-> **ooowl.net** &copy; fenychn0206 | Licesne under [MIT License](LICENSE).
+> **blog-archives** &copy; fenychn0206 | Licesne under [MIT License](LICENSE).
