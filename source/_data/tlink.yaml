@@ -1,9 +1,0 @@
-links:
-  - class_name: 技能
-    descr: 我会的技能点，持续增长中……
-    type: item
-    link_list:
-      - name: .NET
-        avatar: https://npm.elemecdn.com/wleelw-blog-abs@1.0.0/img/icon/dotnet-logo.svg
-        descr: 免费、开源，快速和跨平台，新式和高效。
-        link: /
