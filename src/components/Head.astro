@@ -1,0 +1,50 @@
+---
+import { SITE } from '@/consts'
+import { ClientRouter } from 'astro:transitions'
+import Favicons from './Favicons.astro'
+---
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=yes"
+  />
+  <meta name="generator" content={Astro.generator} />
+  <script defer src="https://umami.ohdragonboi.cn/analytics" data-website-id="20db53a2-22e0-4ed1-b379-8d1136fb40c8"></script>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="7709a142-f499-484c-a517-b7039fd470e0"></script>
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta
+    name="format-detection"
+    content="telephone=no,date=no,address=no,email=no,url=no"
+  />
+
+  <meta
+    name="theme-color"
+    content="#121212"
+    media="(prefers-color-scheme: dark)"
+  />
+  <meta
+    name="theme-color"
+    content="#121212"
+    media="(prefers-color-scheme: light)"
+  />
+
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title={SITE.title}
+    href={new URL('rss.xml', Astro.site)}
+  />
+
+  <Favicons />
+  <ClientRouter />
+
+  <slot />
+</head>

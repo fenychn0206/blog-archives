@@ -1,0 +1,114 @@
+---
+import BlogCard from '@/components/BlogCard.astro'
+import ContributionChart from '@/components/ContributionChart'
+import FriendsRSSFeed from '@/components/FriendsRSSFeed'
+import Link from '@/components/Link.astro'
+import PageHead from '@/components/PageHead.astro'
+import { buttonVariants } from '@/components/ui/button'
+import { SITE } from '@/consts'
+import Layout from '@/layouts/Layout.astro'
+import { getRecentPosts, getAllPosts, getAllAuthors } from '@/lib/data-utils'
+import { getFriendRSSFeeds, getRecentFeedItems } from '@/lib/rss-utils'
+import '@fontsource/lxgw-wenkai';
+
+const blog = await getRecentPosts(SITE.featuredPostCount)
+const allPosts = await getAllPosts()
+
+const friends = await getAllAuthors()
+const feedsMap = await getFriendRSSFeeds(friends)
+const recentFeedItems = getRecentFeedItems(feedsMap, 3)
+
+const friendsMap = new Map(friends.map(f => [f.id, f]))
+
+const friendPosts = recentFeedItems.map(({ friendId, item }) => {
+  const friend = friendsMap.get(friendId)
+  return {
+    title: item.title,
+    link: item.link,
+    description: item.description || '',
+    pubDate: item.pubDate.toISOString(),
+    friendName: friend?.data.name || '未知作者',
+    friendAvatar: friend?.data.avatar || '',
+    friendWebsite: friend?.data.website || '#'
+  }
+})
+---
+
+<Layout class="max-w-3xl">
+  <PageHead slot="head" title="Hej." />
+  <section>
+    <div class="rounded-lg border">
+      <div class="flex flex-col space-y-1.5 p-6">
+        <h3 class="text-3xl leading-none font-medium">Hej，旅行者！</h3>
+        <p class="text-muted-foreground text-sm">
+          来自 Frederick · <span class="font-medium">[ OIer / Blogger / Student ]</span>
+        </p>
+        <a title="无聊湾 🥱 The Boring Bay" href="https://boringbay.com"><img width="100px" src="https://boringbay.com/api/badge/blog.ohdragonboi.cn"></img></a>
+      </div>
+      <div class="p-6 pt-0">
+        <p class="text-muted-foreground mb-2 text-sm">
+          
+          这里是 <Link
+            href="https://github.com/fenychn0206"
+            class="text-foreground"
+            external
+            underline>Frederick</Link
+          > 的个人站，采用 <Link
+            href="https://astro.build"
+            class="text-foreground"
+            external
+            underline>Astro</Link
+          > 搭建，这里有生活记录、项目分享、闲聊杂谈，还有文章转载、文章翻译、科技资讯，希望你可以找到你想要的内容！
+        </p>
+        <p class="text-muted-foreground text-sm">
+          博主目前从事于信息学竞赛，也活跃于开源社区。不过文笔不是很好啦，如果写得烂还请见谅。如果您想向本站投稿，您可邮件联系 <Link
+            href="mailto:hey@ohdragonboi.cn"
+            class="text-foreground"
+            underline
+            external>hey@ohdragonboi.cn</Link
+          > 感谢支持～
+        </p>
+        <br>
+        <ContributionChart posts={allPosts} client:load />
+      </div>
+    </div>
+  </section>
+  <section class="flex flex-col gap-y-4">
+    <h2 class="text-2xl font-medium">最新文章</h2>
+    <ul class="flex flex-col gap-y-4">
+      {
+        blog.map((post) => (
+          <li>
+            <BlogCard entry={post} />
+          </li>
+        ))
+      }
+    </ul>
+    <div class="flex justify-center">
+      <Link
+        href="/blog"
+        class={buttonVariants({ variant: 'ghost' }) + ' group'}
+      >
+        查看文章列表 <span
+          class="ml-1.5 transition-transform group-hover:translate-x-1"
+          >&rarr;</span
+        >
+      </Link>
+    </div>
+  </section>
+  
+  <section class="flex flex-col gap-y-4">
+    <FriendsRSSFeed initialPosts={friendPosts} client:load />
+    <div class="flex justify-center">
+      <Link
+        href="/friends"
+        class={buttonVariants({ variant: 'ghost' }) + ' group'}
+      >
+        查看友链列表 <span
+          class="ml-1.5 transition-transform group-hover:translate-x-1"
+          >&rarr;</span
+        >
+      </Link>
+    </div>
+  </section>
+</Layout>

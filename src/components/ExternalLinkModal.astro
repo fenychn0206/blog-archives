@@ -1,0 +1,133 @@
+---
+---
+
+<div id="external-link-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-white/80 backdrop-blur-sm dark:bg-black/80">
+  <div class="bg-background border-border mx-4 max-w-md rounded-lg border p-6 shadow-lg">
+    <div class="mb-4 flex items-center gap-3">
+      <div class="bg-yellow-100 text-yellow-600 dark:bg-yellow-900/50 dark:text-yellow-400 flex size-10 items-center justify-center rounded-full">
+        <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.82 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+        </svg>
+      </div>
+      <h3 class="text-lg font-semibold">即将离开当前页面</h3>
+    </div>
+    
+    <p class="text-muted-foreground mb-4">您点击的链接将跳转到外部网站：</p>
+    
+    <div class="bg-muted mb-6 rounded-md p-3">
+      <p id="external-link-url" class="text-sm font-mono break-all"></p>
+    </div>
+    
+    <div class="flex justify-end gap-3">
+      <button 
+        id="cancel-external-link" 
+        class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+      >
+        取消
+      </button>
+      <button 
+        id="confirm-external-link" 
+        class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+      >
+        继续访问
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  let currentExternalUrl = ''
+  
+  function showExternalLinkModal(url) {
+    currentExternalUrl = url
+    const modal = document.getElementById('external-link-modal')
+    const urlDisplay = document.getElementById('external-link-url')
+    
+    if (modal && urlDisplay) {
+      urlDisplay.textContent = url
+      modal.classList.remove('hidden')
+      modal.classList.add('flex')
+      
+      // 防止背景滚动
+      document.body.style.overflow = 'hidden'
+    }
+  }
+  
+  function hideExternalLinkModal() {
+    const modal = document.getElementById('external-link-modal')
+    if (modal) {
+      modal.classList.add('hidden')
+      modal.classList.remove('flex')
+      document.body.style.overflow = ''
+      currentExternalUrl = ''
+    }
+  }
+  
+  function setupExternalLinkHandler() {
+    // 绑定按钮事件
+    const cancelBtn = document.getElementById('cancel-external-link')
+    const confirmBtn = document.getElementById('confirm-external-link')
+    
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', hideExternalLinkModal)
+    }
+    
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', () => {
+        if (currentExternalUrl) {
+          window.open(currentExternalUrl, '_blank')
+          hideExternalLinkModal()
+        }
+      })
+    }
+    
+    // 点击背景关闭模态框
+    const modal = document.getElementById('external-link-modal')
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          hideExternalLinkModal()
+        }
+      })
+    }
+    
+    // ESC键关闭模态框
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal?.classList.contains('hidden')) {
+        hideExternalLinkModal()
+      }
+    })
+    
+    // 拦截所有外部链接
+    document.addEventListener('click', (e) => {
+      if (!e.target) return
+      const target = e.target
+      const link = target.closest ? target.closest('a') : null
+      if (!link) return
+      
+      const href = link.getAttribute('href')
+      if (!href) return
+      
+      // 检查是否为外部链接
+      try {
+        const currentDomain = window.location.hostname
+        const linkUrl = new URL(href, window.location.origin)
+        
+        // 如果是外部链接，都进行拦截（无论是否有target="_blank"）
+        if (linkUrl.hostname !== currentDomain && linkUrl.protocol.startsWith('http')) {
+          e.preventDefault()
+          e.stopPropagation()
+          showExternalLinkModal(href)
+        }
+      } catch (error) {
+        // URL解析失败，可能是相对链接或其他格式，不处理
+      }
+    })
+  }
+  
+  // 页面加载时初始化
+  setupExternalLinkHandler()
+  
+  // Astro页面切换时重新初始化
+  document.addEventListener('astro:page-load', setupExternalLinkHandler)
+</script>

@@ -1,0 +1,75 @@
+---
+import AvatarComponent from '@/components/ui/avatar'
+import { cn } from '@/lib/utils'
+import type { SocialLink } from '@/types'
+import type { CollectionEntry } from 'astro:content'
+import SocialIcons from './SocialIcons.astro'
+
+interface Props {
+  friend: CollectionEntry<'friends'>
+}
+
+const { friend } = Astro.props
+const { name, avatar, bio, pronouns, status, lastChecked } = friend.data
+const currentPath = Astro.url.pathname
+const isAuthorPage = currentPath === `/friends/${friend.id}`
+
+const socialLinks: SocialLink[] = [
+  friend.data.website && { href: friend.data.website, label: 'Website' },
+  friend.data.github && { href: friend.data.github, label: 'GitHub' },
+].filter(Boolean) as SocialLink[]
+
+const isInactive = status === 'inactive'
+const lastCheckedText = lastChecked ? new Date(lastChecked).toLocaleDateString('zh-CN') : null
+---
+
+<div
+  class={cn(
+    "overflow-hidden rounded-xl border transition-colors duration-300 ease-in-out",
+    !isAuthorPage && "hover:bg-secondary/50 group cursor-pointer",
+    isAuthorPage && "bg-secondary/30"
+  )}
+  onclick={!isAuthorPage ? `window.location.href='/friends/${friend.id}'` : undefined}
+>
+  <div class="p-4">
+    <div class="flex flex-wrap gap-4">
+      <AvatarComponent
+        client:load
+        src={avatar}
+        alt={`Avatar of ${name}`}
+        fallback={name[0]}
+        className="size-32 rounded-md [&>[data-slot='avatar-fallback']]:rounded-md"
+      />
+      <div class="flex grow flex-col justify-between gap-y-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-x-2">
+            <h3 class="text-lg font-medium">{name}</h3>
+            {
+              pronouns && (
+                <span class="text-muted-foreground text-sm">({pronouns})</span>
+              )
+            }
+            {
+              isInactive && (
+                <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 rounded-full">
+                  无法访问
+                </span>
+              )
+            }
+          </div>
+          <p class="text-muted-foreground text-sm">{bio}</p>
+          {
+            lastCheckedText && (
+              <p class="text-muted-foreground text-xs mt-1">
+                最后检查: {lastCheckedText}
+              </p>
+            )
+          }
+        </div>
+        <div onclick="event.stopPropagation()">
+          <SocialIcons links={socialLinks} />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
